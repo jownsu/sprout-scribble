@@ -1,3 +1,4 @@
+import AddPostButton from "@/components/AddPostButton";
 import createPost from "@/server/actions/create-post";
 import getPosts from "@/server/actions/get-posts";
 import React from "react";
@@ -17,7 +18,7 @@ const HomePage = async () => {
 
 			<form action={createPost} className="flex gap-2">
 				<input type="text" name="title" className="border text-black bg-white px-2" />
-				<button type="submit" className="bg-white text-black px-3 py-2">Add Post</button>
+				<AddPostButton />
 			</form>
 		</div>
 	);
