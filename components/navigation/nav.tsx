@@ -10,7 +10,7 @@ const Nav = async () => {
 
 	return (
 		<header className="bg-grey-900 py-4 px-3">
-			<nav>
+			<nav className="container">
 				<ul className="flex justify-between items-center">
 					<li>
 						<Logo />

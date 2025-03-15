@@ -1,7 +1,7 @@
 
 const HomePage = async () => {
 	return (
-		<div>
+		<div className="t-[16] p-[10]">
 			Main Page
 		</div>
 	);

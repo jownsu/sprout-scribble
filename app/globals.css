@@ -26,6 +26,64 @@
   --color-orange: #BE6C49;
 }
 
+@utility container {
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+@utility t-* {
+  font-size: calc(--value([integer])rem / 16);
+}
+
+@utility p-* {
+  padding: calc(--value([integer])rem / 16);
+}
+@utility px-* {
+  padding-left: calc(--value([integer])rem / 16);
+  padding-right: calc(--value([integer])rem / 16);
+}
+@utility py-* {
+  padding-top: calc(--value([integer])rem / 16);
+  padding-bottom: calc(--value([integer])rem / 16);
+}
+@utility pt-* {
+  padding-top: calc(--value([integer])rem / 16);
+}
+@utility pl-* {
+  padding-left: calc(--value([integer])rem / 16);
+}
+@utility pr-* {
+  padding-right: calc(--value([integer])rem / 16);
+}
+@utility pb-* {
+  padding-bottom: calc(--value([integer])rem / 16);
+}
+
+@utility m-* {
+  margin: calc(--value([integer])rem / 16);
+}
+@utility mx-* {
+  margin-left: calc(--value([integer])rem / 16);
+  margin-right: calc(--value([integer])rem / 16);
+}
+@utility my-* {
+  margin-top: calc(--value([integer])rem / 16);
+  margin-bottom: calc(--value([integer])rem / 16);
+}
+@utility mt-* {
+  margin-top: calc(--value([integer])rem / 16);
+}
+@utility ml-* {
+  margin-left: calc(--value([integer])rem / 16);
+}
+@utility mr-* {
+  margin-right: calc(--value([integer])rem / 16);
+}
+@utility mb-* {
+  margin-bottom: calc(--value([integer])rem / 16);
+}
+
+
 html,
 body {
   max-width: 100vw;

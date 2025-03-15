@@ -21,7 +21,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`$${poppins.variable} container bg-beige-100`}
+				className={`$${poppins.variable} bg-beige-100`}
 			>
 				<Nav />
 				{children}
