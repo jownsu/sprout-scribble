@@ -4,7 +4,6 @@ import {
 	text,
 	primaryKey,
 	integer,
-	serial,
   } from "drizzle-orm/pg-core"
   import type { AdapterAccount } from "next-auth/adapters"
    
@@ -43,8 +42,3 @@ import {
 	  },
 	]
   )
-
-export const posts = pgTable("post", {
-	id: serial("id").primaryKey().notNull(),
-	title: text("title").notNull()
-});
