@@ -9,7 +9,7 @@ const Nav = async () => {
 	const session = await auth();
 
 	return (
-		<header className="bg-slate-500 py-8 px-3">
+		<header className="bg-grey-900 py-4 px-3">
 			<nav>
 				<ul className="flex justify-between items-center">
 					<li>
@@ -20,7 +20,7 @@ const Nav = async () => {
 							<UserButton user={session?.user} />
 						) : (
 							<Button asChild>
-								<Link href={"/auth/login"}>
+								<Link href={"/auth/login"} className="text-beige-100">
 									<LogIn /> <span>Login</span>
 								</Link>
 							</Button>

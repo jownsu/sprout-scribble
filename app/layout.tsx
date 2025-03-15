@@ -1,34 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/navigation/nav";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const poppins = Poppins({
+	variable: "--font-poppins",
+	weight: ["100", "200", "300", "400","500", "600", "700"]
 });
 
 export const metadata: Metadata = {
-  title: "Sprout Scribble",
-  description: "E-commerce website",
+	title: "Sprout Scribble",
+	description: "E-commerce website"
 };
 
 export default function RootLayout({
-  children,
+	children
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} container`}>
-        <Nav />
-        {children}
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body
+				className={`$${poppins.variable} container bg-beige-100`}
+			>
+				<Nav />
+				{children}
+			</body>
+		</html>
+	);
 }
