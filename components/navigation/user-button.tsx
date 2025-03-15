@@ -13,7 +13,7 @@ const UserButton = ({ user }: Props) => {
 	}
 
 	return (
-		<div>
+		<div className="text-background">
 			<h1>{user.name}</h1>
 			<button onClick={() => signOut()}>Sign out</button>
 		</div>

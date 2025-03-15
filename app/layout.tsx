@@ -21,10 +21,12 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`$${poppins.variable} bg-beige-100`}
+				className={`$${poppins.variable} bg-background flex flex-col gap-[16]`}
 			>
 				<Nav />
-				{children}
+				<main className="px-[16]">
+					{children}
+				</main>
 			</body>
 		</html>
 	);
