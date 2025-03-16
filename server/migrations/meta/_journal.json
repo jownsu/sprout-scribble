@@ -15,6 +15,13 @@
       "when": 1742028163074,
       "tag": "0001_first_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742108783130,
+      "tag": "0002_slippery_ultimo",
+      "breakpoints": true
     }
   ]
 }
