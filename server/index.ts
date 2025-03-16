@@ -7,6 +7,5 @@ config({ path: ".env.local" });
 
 const sql = neon(process.env.POSTGRES_URL as string);
 export const db = drizzle(sql, {
-	schema,
-	logger: true
+	schema
 });

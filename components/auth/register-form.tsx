@@ -10,7 +10,8 @@ import {
 	FormMessage
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { emailSignIn } from "@/server/actions/email-signin";
+import { emailRegister } from "@/server/actions/email-register";
+import { RegisterSchema } from "@/types/register-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
@@ -19,7 +20,6 @@ import * as z from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import AuthCard from "./auth-card";
-import { RegisterSchema } from "@/types/register-schema";
 
 const RegisterForm = () => {
 	const form = useForm({
@@ -31,7 +31,7 @@ const RegisterForm = () => {
 		}
 	});
 
-	const { execute, status } = useAction(emailSignIn, {
+	const { execute, status } = useAction(emailRegister, {
 		onSuccess: (response) => {
 			console.log("ON SUCCESS: ", response);
 		},
@@ -49,7 +49,6 @@ const RegisterForm = () => {
 			cardTitle="Create an account"
 			backButtonHref="/auth/login"
 			backButtonLabel="Already have an account?"
-			showSocials
 		>
 			<div>
 				<Form {...form}>
