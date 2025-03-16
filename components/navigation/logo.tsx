@@ -5,7 +5,7 @@ const Logo = () => {
 			width="189"
 			height="10"
 			viewBox="0 0 189 10"
-			className="fill-white hover:fill-secondary-foreground/75 transition-all duration-500 ease-in-out cursor-pointer"
+			className="fill-background hover:fill-background/75 transition-all duration-500 ease-in-out cursor-pointer"
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			<g clipPath="url(#clip0_158_7)">
