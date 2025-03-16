@@ -9,24 +9,25 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { LoginSchema } from "@/types/login-schema";
+import { cn } from "@/lib/utils";
+import { emailSignIn } from "@/server/actions/email-signin";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import AuthCard from "./auth-card";
-import { emailSignIn } from "@/server/actions/email-signin";
-import { useAction } from "next-safe-action/hooks"
-import { cn } from "@/lib/utils";
+import { RegisterSchema } from "@/types/register-schema";
 
-const LoginForm = () => {
+const RegisterForm = () => {
 	const form = useForm({
-		resolver: zodResolver(LoginSchema),
+		resolver: zodResolver(RegisterSchema),
 		defaultValues: {
 			email: "",
-			password: ""
+			password: "",
+			name: ""
 		}
 	});
 
@@ -39,15 +40,15 @@ const LoginForm = () => {
 		}
 	});
 
-	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-		execute(values)
+	const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+		execute(values);
 	};
 
 	return (
 		<AuthCard
-			cardTitle="Welcome back!"
-			backButtonHref="/auth/register"
-			backButtonLabel="Create a new account"
+			cardTitle="Create an account"
+			backButtonHref="/auth/login"
+			backButtonLabel="Already have an account?"
 			showSocials
 		>
 			<div>
@@ -94,14 +95,33 @@ const LoginForm = () => {
 								</FormItem>
 							)}
 						/>
+						<FormField
+							control={form.control}
+							name="name"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Name</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											placeholder="John Doe"
+											type="text"
+											autoComplete="name"
+										/>
+									</FormControl>
+									<FormDescription />
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 						<Button size="sm" variant={"link"} className="w-fit" asChild>
 							<Link href={"/auth/reset"}>Forgot your password?</Link>
 						</Button>
-						<Button 
+						<Button
 							type="submit"
 							className={cn(status === "executing" ? "animate-pulse" : "")}
 						>
-							Login
+							Register
 						</Button>
 					</form>
 				</Form>
@@ -110,4 +130,4 @@ const LoginForm = () => {
 	);
 };
 
-export default LoginForm;
+export default RegisterForm;
