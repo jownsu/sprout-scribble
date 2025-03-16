@@ -10,7 +10,7 @@ interface Props {
 
 const BackButton = ({ href, label }: Props) => {
 	return (
-		<Button className="w-full">
+		<Button className="w-full" variant={"link"} asChild>
 			<Link href={href}>{label}</Link>
 		</Button>
 	);

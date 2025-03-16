@@ -27,7 +27,7 @@ const AuthCard = ({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{cardTitle}</CardTitle>
+				<CardTitle className="t-[21]">{cardTitle}</CardTitle>
 			</CardHeader>
 			<CardContent>{children}</CardContent>
 			{showSocials && (
