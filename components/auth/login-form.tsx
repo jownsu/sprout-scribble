@@ -31,7 +31,12 @@ const LoginForm = () => {
 	});
 
 	const { execute, status } = useAction(emailSignIn, {
-
+		onSuccess: (response) => {
+			console.log("ON SUCCESS: ", response);
+		},
+		onError: (response) => {
+			console.log("ON ERROR: ", response);
+		}
 	});
 
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
