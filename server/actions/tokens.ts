@@ -2,9 +2,7 @@
 
 import { db } from "@/server";
 import { eq } from "drizzle-orm";
-import { emailTokens } from "../schema";
-
-
+import { emailTokens } from "@/server/schema";
 
 export const getVerificationTokenByEmail = async (email: string) => {
     try {
@@ -32,11 +30,7 @@ export const generateEmailVerificationToken = async (email: string) => {
         email,
         token,
         expires
-    });
+    }).returning();
 
     return verificationToken;
 } 
-
-export const sendVerificationEmail = async () => {
-    return {};
-}

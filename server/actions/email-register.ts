@@ -6,7 +6,8 @@ import { RegisterSchema } from "@/types/register-schema";
 import { eq } from "drizzle-orm";
 import { createSafeActionClient } from "next-safe-action";
 import bcrypt from "bcrypt";
-import { generateEmailVerificationToken, sendVerificationEmail } from "./tokens";
+import { generateEmailVerificationToken } from "./tokens";
+import { sendVerificationEmail } from "./email";
 
 const action = createSafeActionClient();
 
@@ -19,39 +20,39 @@ export const emailRegister = action
 			where: eq(users.email, email)
 		});
 
-		/* Check if the user is in the database */
-        if(user){
-            /* Will generate token if the fetched user is not verified */
-            if(!user.emailVerified){
-                await generateEmailVerificationToken(email);
-                await sendVerificationEmail();
-
-                return {
-                    status: true,
-                    data: "Email confirmation resent"
-                }
-            }
-
-			return {
+        /* Stop if the email is taken and already verified */
+        if(user && user.emailVerified){
+            return {
 				status: false,
 				error: "Email already in use"
 			};
         }
 
-        /* Register the user if it is not exists on database */
-        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("USER:", user)
 
-        await db.insert(users).values({
-            email,
-            name,
-            password: hashedPassword
-        });
+        /* Create user if the email is not already used */
+        if(!user){
+            const hashedPassword = await bcrypt.hash(password, 10);
 
-        await generateEmailVerificationToken(email);
-        await sendVerificationEmail();
+            await db.insert(users).values({
+                email,
+                name,
+                password: hashedPassword
+            });
+        }
+
+        const [verification] = await generateEmailVerificationToken(email);
+        const sendResponse = await sendVerificationEmail(verification.email, verification.token);
+
+        if(!sendResponse?.status){
+            return {
+                status: false,
+                error: sendResponse?.message
+            }
+        }
 
         return {
             status: true,
-            data: "Confirmation email sent"
-        };
+            data: user?.emailVerified ? "Email confirmation resent" : "Confirmation email sent"
+        }
 	});

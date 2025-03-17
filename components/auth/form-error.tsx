@@ -10,8 +10,8 @@ const FormError = ({ message }: Props) => {
 	}
 
 	return (
-		<div className="bg-destructive text-secondary-foreground p-[8] rounded-md">
-			<AlertCircle className="size-[16]" />
+		<div className="bg-red-200 text-secondary-foreground p-[12] rounded-md flex items-center gap-[8] t-[12] font-normal">
+			<AlertCircle className="size-[14] shrink-0" />
 			<p>{message}</p>
 		</div>
 	);

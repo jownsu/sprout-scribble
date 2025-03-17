@@ -15,11 +15,14 @@ import { RegisterSchema } from "@/types/register-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import AuthCard from "./auth-card";
+import FormError from "./form-error";
+import FormSuccess from "./form-success";
 
 const RegisterForm = () => {
 	const form = useForm({
@@ -31,17 +34,26 @@ const RegisterForm = () => {
 		}
 	});
 
+	const [success, setSuccess] = useState("");
+	const [error, setError] = useState("");
+
 	const { execute, status } = useAction(emailRegister, {
 		onSuccess: (response) => {
-			console.log("ON SUCCESS: ", response);
+			if(response.data?.status){
+				setSuccess(response?.data.data || "");
+				setError("");
+			}
+			else {
+				setError(response?.data?.error || "");
+				setSuccess("");
+			}
 		},
-		onError: (response) => {
-			console.log("ON ERROR: ", response);
-		}
 	});
 
 	const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
 		execute(values);
+		setSuccess("");
+		setError("");
 	};
 
 	return (
@@ -113,12 +125,15 @@ const RegisterForm = () => {
 								</FormItem>
 							)}
 						/>
+						<FormSuccess message={success} />
+						<FormError message={error} />
 						<Button size="sm" variant={"link"} className="w-fit" asChild>
 							<Link href={"/auth/reset"}>Forgot your password?</Link>
 						</Button>
 						<Button
 							type="submit"
 							className={cn(status === "executing" ? "animate-pulse" : "")}
+							disabled={status === "executing"}
 						>
 							Register
 						</Button>

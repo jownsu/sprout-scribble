@@ -10,8 +10,8 @@ const FormSuccess = ({ message }: Props) => {
 	}
 
 	return (
-		<div className="bg-teal-400 text-secondary-foreground p-[8] rounded-md">
-			<CheckCircle2 className="size-[16]" />
+		<div className="bg-emerald-200 text-secondary-foreground p-[12] rounded-md flex items-center gap-[8] t-[12] font-normal">
+			<CheckCircle2 className="size-[14]" />
 			<p>{message}</p>
 		</div>
 	);
