@@ -28,8 +28,6 @@ export const emailRegister = action
 			};
         }
 
-        console.log("USER:", user)
-
         /* Create user if the email is not already used */
         if(!user){
             const hashedPassword = await bcrypt.hash(password, 10);

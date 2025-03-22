@@ -71,6 +71,13 @@
       "when": 1742132676245,
       "tag": "0009_whole_silver_centurion",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1742640848842,
+      "tag": "0010_chemical_corsair",
+      "breakpoints": true
     }
   ]
 }

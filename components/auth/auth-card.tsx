@@ -25,7 +25,7 @@ const AuthCard = ({
 	showSocials
 }: Props) => {
 	return (
-		<Card>
+		<Card className="max-w-[550] mx-auto">
 			<CardHeader>
 				<CardTitle className="t-[21]">{cardTitle}</CardTitle>
 			</CardHeader>
