@@ -20,8 +20,15 @@ import AuthCard from "./auth-card";
 import { emailSignIn } from "@/server/actions/email-signin";
 import { useAction } from "next-safe-action/hooks"
 import { cn } from "@/lib/utils";
+import FormSuccess from "./form-success";
+import FormError from "./form-error";
+import { useState } from "react";
 
 const LoginForm = () => {
+
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
+	
 	const form = useForm({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
@@ -32,15 +39,20 @@ const LoginForm = () => {
 
 	const { execute, status } = useAction(emailSignIn, {
 		onSuccess: (response) => {
-			console.log("ON SUCCESS: ", response);
+			if(response.data?.status === true){
+				setSuccess(response.data?.message || "Success");
+			}
+
+			if(response.data?.status === false){
+				setError(response.data?.message || "Error");
+			}
 		},
-		onError: (response) => {
-			console.log("ON ERROR: ", response);
-		}
 	});
 
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-		execute(values)
+		execute(values);
+		setError("");
+		setSuccess("");
 	};
 
 	return (
@@ -94,6 +106,8 @@ const LoginForm = () => {
 								</FormItem>
 							)}
 						/>
+						<FormSuccess message={success} />
+						<FormError message={error} />
 						<Button size="sm" variant={"link"} className="w-fit" asChild>
 							<Link href={"/auth/reset"}>Forgot your password?</Link>
 						</Button>
