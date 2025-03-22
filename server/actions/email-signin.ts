@@ -15,9 +15,6 @@ const action = createSafeActionClient();
 export const emailSignIn = action
 	.schema(LoginSchema)
 	.action(async ({ parsedInput: { email, password } }) => {
-
-
-
 		try {
 			/* Check if the user is in the database */
 			const existingUser = await db.query.users.findFirst({
