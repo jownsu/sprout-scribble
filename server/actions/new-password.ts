@@ -3,7 +3,7 @@
 import { NewPasswordSchema } from "@/types/new-password-schema";
 import { createSafeActionClient } from "next-safe-action";
 import { getPasswordResetToken } from "./tokens";
-import { db } from "..";
+import { db, dbPool } from "..";
 import { eq } from "drizzle-orm";
 import { passwordResetTokens, users } from "../schema";
 import bcrypt from "bcrypt";
@@ -52,7 +52,7 @@ export const newPassword = action
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await db.transaction(async (tx) => {
+        await dbPool.transaction(async (tx) => {
             await tx.update(users)
                 .set({password: hashedPassword})
                 .where(eq(users.id, existingUser.id));

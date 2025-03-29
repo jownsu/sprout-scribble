@@ -20,24 +20,21 @@ import { cn } from "@/lib/utils";
 import FormSuccess from "./form-success";
 import FormError from "./form-error";
 import { useState } from "react";
-import { NewPasswordSchema } from "@/types/new-password-schema";
-import { newPassword } from "@/server/actions/new-password";
-import { useSearchParams } from "next/navigation";
+import { ResetPasswordSchema } from "@/types/reset-password-schema";
+import { resetPassword } from "@/server/actions/reset-password";
 
-const NewPasswordForm = () => {
-	const token = useSearchParams().get("token");
+const ResetPasswordForm = () => {
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
 
 	const form = useForm({
-		resolver: zodResolver(NewPasswordSchema),
+		resolver: zodResolver(ResetPasswordSchema),
 		defaultValues: {
-			token,
-			password: ""
+			email: ""
 		}
 	});
 
-	const { execute, status } = useAction(newPassword, {
+	const { execute, status } = useAction(resetPassword, {
 		onSuccess: (response) => {
 			if (response.data?.status === true) {
 				setSuccess(response.data?.message || "Success");
@@ -49,7 +46,7 @@ const NewPasswordForm = () => {
 		}
 	});
 
-	const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
+	const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
 		execute(values);
 		setError("");
 		setSuccess("");
@@ -57,7 +54,7 @@ const NewPasswordForm = () => {
 
 	return (
 		<AuthCard
-			cardTitle="Enter a new password"
+			cardTitle="Forgot your password?"
 			backButtonHref="/auth/login"
 			backButtonLabel="Back to login"
 		>
@@ -69,16 +66,16 @@ const NewPasswordForm = () => {
 					>
 						<FormField
 							control={form.control}
-							name="password"
+							name="email"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>New Password</FormLabel>
 									<FormControl>
 										<Input
 											{...field}
-											placeholder="********"
-											type="password"
-											autoComplete="current-password"
+											placeholder="johndoe@gmail.com"
+											type="email"
+											autoComplete="email"
 											disabled={status === "executing"}
 										/>
 									</FormControl>
@@ -102,4 +99,4 @@ const NewPasswordForm = () => {
 	);
 };
 
-export default NewPasswordForm;
+export default ResetPasswordForm;

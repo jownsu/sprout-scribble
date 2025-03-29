@@ -29,3 +29,29 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         };
     }
 }
+
+export const sendResetPasswordEmail = async (email: string, token: string) => {
+    
+    const confirmLink = `${domain}/auth/new-password?token=${token}`;
+
+    const { data, error } = await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: [email],
+        subject: "Sprout and Scribble - Confirmation Email",
+        html: `<p>Click to <a href='${confirmLink}'>Reset your password</a></p>`
+    });
+
+    if(error){
+        return {
+            status: false,
+            message: error.message
+        };
+    }
+    
+    if(data){
+        return {
+            status: true,
+            message: "Email Confirmation Sent"
+        };
+    }
+}

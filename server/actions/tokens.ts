@@ -1,3 +1,4 @@
+
 "use server";
 
 import { db } from "@/server";
@@ -100,4 +101,35 @@ export const getPasswordResetToken = async (token: string) => {
     catch {
         return null;
     }
+}
+
+export const getPasswordResetTokenByEmail = async (email: string) => {
+    try {
+        const verificationToken = await db.query.passwordResetTokens.findFirst({
+            where: eq(passwordResetTokens.email, email)
+        });
+
+        return verificationToken
+    }
+    catch {
+        return null;
+    }
+}
+
+export const generateResetPasswordToken = async (email: string) => {
+    const token = crypto.randomUUID();
+    const expires = new Date(new Date().getTime() + 3600 * 1000);
+    const existingToken = await getPasswordResetTokenByEmail(email);
+
+    if(existingToken){
+        await db.delete(passwordResetTokens).where(eq(passwordResetTokens.id, existingToken.id));
+    }
+
+    const verificationToken = await db.insert(passwordResetTokens).values({
+        email,
+        token,
+        expires
+    }).returning();
+
+    return verificationToken;
 }
