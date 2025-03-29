@@ -22,10 +22,10 @@ import FormError from "./form-error";
 import { useState } from "react";
 import { NewPasswordSchema } from "@/types/new-password-schema";
 import { newPassword } from "@/server/actions/new-password";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const NewPasswordForm = () => {
-	const token = useSearchParams().get("token");
+	const { token } = useParams() as { token?: string };
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
 

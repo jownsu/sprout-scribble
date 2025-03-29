@@ -13,11 +13,11 @@ const Nav = async () => {
 			<nav className="container">
 				<ul className="flex justify-between items-center">
 					<li>
-						<Link href={"/"}>
+						<Link href={"/"} aria-label="sprout and scribble logo">
 							<Logo />
 						</Link>
 					</li>
-					<li>
+					<li className="">
 						{session ? (
 							<UserButton user={session?.user} />
 						) : (

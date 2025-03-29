@@ -1,15 +1,16 @@
 "use client";
 
 import { newVerification } from "@/server/actions/tokens";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import AuthCard from "./auth-card";
-import FormSuccess from "./form-success";
 import FormError from "./form-error";
+import FormSuccess from "./form-success";
 
 const EmailVerificationForm = () => {
 
-    const token = useSearchParams().get("token");
+    const { token } = useParams() as { token?: string };
+    
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 

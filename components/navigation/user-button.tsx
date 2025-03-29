@@ -1,8 +1,16 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { LogOut, Moon, Settings, Sun, TruckIcon } from "lucide-react";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
-
 interface Props {
 	user?: User;
 }
@@ -13,10 +21,58 @@ const UserButton = ({ user }: Props) => {
 	}
 
 	return (
-		<div className="text-background">
-			<h1>{user.name}</h1>
-			<button onClick={() => signOut()}>Sign out</button>
-		</div>
+		<DropdownMenu>
+			<DropdownMenuTrigger className="flex cursor-pointer">
+				<Avatar>
+					{user.image && <AvatarImage src={user.image} />}
+					<AvatarFallback className="bg-primary text-white">
+						{user.name?.charAt(0).toUpperCase()}
+					</AvatarFallback>
+				</Avatar>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent className="p-4" align="end">
+				<div className="mb-4 p-4 flex flex-col items-center bg-primary/15 rounded-lg gap-1">
+					<Avatar>
+						{user.image && <AvatarImage src={user.image} />}
+						<AvatarFallback className="bg-primary text-white">
+							{user.name?.charAt(0).toUpperCase()}
+						</AvatarFallback>
+					</Avatar>
+					<p className="font-bold text-xs">{user.name}</p>
+					<p className="font-medium text-xs text-secondary-foreground">
+						{user.email}
+					</p>
+				</div>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200 group">
+					<TruckIcon className="mr-1 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />{" "}
+					My orders
+				</DropdownMenuItem>
+				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200 group">
+					<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />{" "}
+					Settings
+				</DropdownMenuItem>
+				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200">
+					<div className="flex items-center">
+						<Sun size={14} />
+						<Moon size={14} />
+						<div>
+							Theme <span>theme</span>
+						</div>
+					</div>
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					className="py-2 font-medium cursor-pointer transition-all duration-200 group hover:bg-destructive/30"
+					onClick={() => signOut()}
+				>
+					<LogOut
+						className="mr-1 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
+						size={14}
+					/>{" "}
+					Sign Out
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 };
 
