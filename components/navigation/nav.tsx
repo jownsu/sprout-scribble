@@ -9,7 +9,7 @@ const Nav = async () => {
 	const session = await auth();
 
 	return (
-		<header className="bg-foreground p-[16]">
+		<header className="bg-card-foreground p-[16]">
 			<nav className="container">
 				<ul className="flex justify-between items-center">
 					<li>

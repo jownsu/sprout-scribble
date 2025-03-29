@@ -11,11 +11,16 @@ import {
 import { LogOut, Moon, Settings, Sun, TruckIcon } from "lucide-react";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
+import { Switch } from "../ui/switch";
+import { cn } from "@/lib/utils";
 interface Props {
 	user?: User;
 }
 
 const UserButton = ({ user }: Props) => {
+	const { theme, setTheme } = useTheme();
+
 	if (!user) {
 		return null;
 	}
@@ -45,24 +50,45 @@ const UserButton = ({ user }: Props) => {
 				</div>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200 group">
-					<TruckIcon className="mr-1 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />{" "}
+					<TruckIcon className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
 					My orders
 				</DropdownMenuItem>
 				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200 group">
-					<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />{" "}
+					<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
 					Settings
 				</DropdownMenuItem>
-				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200">
-					<div className="flex items-center">
-						<Sun size={14} />
-						<Moon size={14} />
-						<div>
-							Theme <span>theme</span>
-						</div>
+				<DropdownMenuItem
+					className={"py-2 font-medium cursor-pointer group"}
+				>
+					{theme === "dark" && (
+						<Moon
+							className="mr-1 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-200 ease-in-out"
+							size={14}
+						/>
+					)}
+					{theme === "light" && (
+						<Sun
+							className="mr-1 group-hover:text-yellow-600 group-hover:translate-x-1 transition-all duration-200 ease-in-out"
+							size={14}
+						/>
+					)}
+					<div className={cn("first-letter:uppercase transition-all duration-200 ease-in-out", {
+						["group-hover:text-blue-400"]: theme === "dark",
+						["group-hover:text-yellow-600"]: theme === "light"
+					})}>
+						{theme} mode
 					</div>
+					<Switch
+						onClick={(e) => e.stopPropagation()}
+						className="scale-80 cursor-pointer"
+						checked={theme === "dark"}
+						onCheckedChange={(value) => {
+							setTheme(value ? "dark" : "light");
+						}}
+					/>
 				</DropdownMenuItem>
 				<DropdownMenuItem
-					className="py-2 font-medium cursor-pointer transition-all duration-200 group hover:bg-destructive/30"
+					className="py-2 font-medium cursor-pointer transition-all duration-200 group hover:!bg-destructive/30"
 					onClick={() => signOut()}
 				>
 					<LogOut
