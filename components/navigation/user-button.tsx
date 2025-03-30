@@ -14,6 +14,7 @@ import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { Switch } from "../ui/switch";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 interface Props {
 	user?: User;
 }
@@ -53,9 +54,11 @@ const UserButton = ({ user }: Props) => {
 					<TruckIcon className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
 					My orders
 				</DropdownMenuItem>
-				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200 group">
-					<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
-					Settings
+				<DropdownMenuItem asChild className="py-2 font-medium cursor-pointer transition-all duration-200 group">
+					<Link href={"dashboard/settings"}>
+						<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
+						Settings
+					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem
 					className={"py-2 font-medium cursor-pointer group"}
