@@ -42,30 +42,39 @@ export default function SettingsCard(session: SettingsForm) {
 	const [success, setSuccess] = useState<string | undefined>();
 	const [avatarUploading, setAvatarUploading] = useState(false);
 
+	console.log(session)
+
 	const form = useForm<z.infer<typeof SettingsSchema>>({
 		resolver: zodResolver(SettingsSchema),
 		defaultValues: {
-			password: undefined,
-			newPassword: undefined,
-			name: session.session.user?.name || undefined,
-			email: session.session.user?.email || undefined,
-			image: session.session.user?.image || undefined,
-			isTwoFactorEnabled: session.session.user?.isTwoFactorEnabled || undefined
+			password: "",
+			newPassword: "",
+			name: session.session.user?.name || "",
+			email: session.session.user?.email || "",
+			image: session.session.user?.image || "",
+			isTwoFactorEnabled: session.session.user?.isTwoFactorEnabled || false
 		}
 	});
 
 	const { execute, status } = useAction(settings, {
 		onSuccess: (data) => {
-			if (data?.success) setSuccess(data.success);
-			if (data?.error) setError(data.error);
+			if (data?.data?.success) {
+				setSuccess(data?.data.success)
+			};
+			if (data?.data?.error) {
+				setError(data?.data?.error)
+			};
 		},
-		onError: (error) => {
+		onError: () => {
 			setError("Something went wrong");
 		}
 	});
 
 	const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+		console.log(values);
 		execute(values);
+		setError("");
+		setSuccess("");
 	};
 
 	return (
@@ -104,6 +113,7 @@ export default function SettingsCard(session: SettingsForm) {
 								<FormItem>
 									<FormLabel>Avatar</FormLabel>
 									<div className="flex items-center gap-4">
+
 										<Avatar>
 											<AvatarImage src={form.getValues("image")} />
 											<AvatarFallback className="bg-primary text-white">
@@ -166,6 +176,7 @@ export default function SettingsCard(session: SettingsForm) {
 												status === "executing" ||
 												session?.session.user.isOAuth
 											}
+											type="password"
 											{...field}
 										/>
 									</FormControl>
@@ -187,6 +198,7 @@ export default function SettingsCard(session: SettingsForm) {
 												status === "executing" ||
 												session?.session.user.isOAuth
 											}
+											type="password"
 											{...field}
 										/>
 									</FormControl>
