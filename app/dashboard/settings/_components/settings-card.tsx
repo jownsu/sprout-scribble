@@ -23,12 +23,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { UploadButton } from "@/lib/uploadthing";
 import { settings } from "@/server/actions/settings";
 import { SettingsSchema } from "@/types/settings-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Session } from "next-auth";
 import { useAction } from "next-safe-action/hooks";
-import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -42,8 +42,8 @@ export default function SettingsCard(session: SettingsForm) {
 	const [success, setSuccess] = useState<string | undefined>();
 	const [avatarUploading, setAvatarUploading] = useState(false);
 
-	console.log(session)
 
+	/* TODO: Make updating of password optional */
 	const form = useForm<z.infer<typeof SettingsSchema>>({
 		resolver: zodResolver(SettingsSchema),
 		defaultValues: {
@@ -71,7 +71,6 @@ export default function SettingsCard(session: SettingsForm) {
 	});
 
 	const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
-		console.log(values);
 		execute(values);
 		setError("");
 		setSuccess("");
@@ -122,7 +121,8 @@ export default function SettingsCard(session: SettingsForm) {
 														.toUpperCase()}
 											</AvatarFallback>
 										</Avatar>
-										{/* <UploadButton
+										{/* TODO: Upload only on submit not on Upload. */}
+										<UploadButton
 											className="scale-75 ut-button:ring-primary  ut-label:bg-red-50  ut-button:bg-primary/75  hover:ut-button:bg-primary/100 ut:button:transition-all ut-button:duration-500  ut-label:hidden ut-allowed-content:hidden"
 											endpoint="avatarUploader"
 											onUploadBegin={() => {
@@ -137,18 +137,21 @@ export default function SettingsCard(session: SettingsForm) {
 												return;
 											}}
 											onClientUploadComplete={(res) => {
-												form.setValue("image", res[0].url!);
+												console.log(res);
+												form.setValue("image", res[0].ufsUrl);
 												setAvatarUploading(false);
 												return;
 											}}
 											content={{
 												button({ ready }) {
-													if (ready)
+													if (ready) {
 														return <div>Change Avatar</div>;
+													}
+
 													return <div>Uploading...</div>;
 												}
 											}}
-										/> */}
+										/>
 									</div>
 									<FormControl>
 										<Input

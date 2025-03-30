@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 @custom-variant dark (&:is(.dark *));
+@import "uploadthing/tw/v4";
+@source "../node_modules/@uploadthing/react/dist";
 
 :root {
   --background: hsl(0 0% 100%);
@@ -161,4 +163,8 @@ body {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+[data-ut-element="button"][data-state="uploading"]::after {
+  @apply hidden;
 }
