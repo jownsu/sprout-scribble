@@ -1,13 +1,18 @@
 "use server";
 
+/* DB */
 import { db } from "@/server";
 import { users } from "@/server/schema";
 import { RegisterSchema } from "@/types/register-schema";
+
+/* PLUGINS */
 import { eq } from "drizzle-orm";
 import { createSafeActionClient } from "next-safe-action";
 import bcrypt from "bcrypt";
-import { generateEmailVerificationToken } from "./tokens";
-import { sendVerificationEmail } from "./email";
+
+/* ACTIONS */
+import { generateEmailVerificationToken } from "@/server/actions/auth/tokens";
+import { sendVerificationEmail } from "@/server/actions/auth/email";
 
 const action = createSafeActionClient();
 

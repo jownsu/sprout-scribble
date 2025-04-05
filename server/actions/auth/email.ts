@@ -1,5 +1,8 @@
-import getBaseUrl from "@/lib/base-url";
+/* PLUGINS */
 import { Resend } from "resend";
+
+/* HELPERS */
+import getBaseUrl from "@/lib/base-url";
 
 const resend = new Resend(process.env.RESEND_API_KEY); 
 const domain = getBaseUrl();

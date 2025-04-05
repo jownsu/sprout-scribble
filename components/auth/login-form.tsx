@@ -35,7 +35,7 @@ import FormSuccess from "@/components/auth/form-success";
 import { cn } from "@/lib/utils";
 
 /* ACTIONS */
-import { emailSignIn } from "@/server/actions/email-signin";
+import { emailSignIn } from "@/server/actions/auth/email-signin";
 
 const LoginForm = () => {
 	const [error, setError] = useState("");

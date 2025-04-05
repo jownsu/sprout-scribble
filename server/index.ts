@@ -1,9 +1,11 @@
+/* DB */
+import * as schema from "@/server/schema";
+
+/* PLUGINS */
 import { drizzle } from "drizzle-orm/neon-http";
 import { drizzle as drizzleServerLess } from "drizzle-orm/neon-serverless";
-
 import { neon } from "@neondatabase/serverless";
 import { config } from "dotenv";
-import * as schema from "@/server/schema";
 
 config({ path: ".env.local" });
 

@@ -1,12 +1,17 @@
 "use server";
 
+/* DB */
+import { db, dbPool } from "@/server";
 import { NewPasswordSchema } from "@/types/new-password-schema";
+import { passwordResetTokens, users } from "@/server/schema";
+
+/* PLUGINS */
 import { createSafeActionClient } from "next-safe-action";
-import { getPasswordResetToken } from "./tokens";
-import { db, dbPool } from "..";
 import { eq } from "drizzle-orm";
-import { passwordResetTokens, users } from "../schema";
 import bcrypt from "bcrypt";
+
+/* ACTIONS */
+import { getPasswordResetToken } from "@/server/actions/auth/tokens";
 
 const action = createSafeActionClient();
 

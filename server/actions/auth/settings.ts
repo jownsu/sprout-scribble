@@ -1,13 +1,18 @@
 "use server";
 
-import { SettingsSchema } from "@/types/settings-schema";
-import { createSafeActionClient } from "next-safe-action";
-import { auth } from "../auth";
-import { db } from "..";
-import { eq } from "drizzle-orm";
-import { users } from "../schema";
-import bcrypt from "bcrypt";
+/* NEXT */
 import { revalidatePath } from "next/cache";
+
+/* DB */
+import { db } from "@/server";
+import { auth } from "@/server/auth";
+import { users } from "@/server/schema";
+import { SettingsSchema } from "@/types/settings-schema";
+
+/* PLUGINS */
+import bcrypt from "bcrypt";
+import { eq } from "drizzle-orm";
+import { createSafeActionClient } from "next-safe-action";
 
 const action = createSafeActionClient();
 

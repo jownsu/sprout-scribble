@@ -10,7 +10,7 @@ import FormError from "@/components/auth/form-error";
 import FormSuccess from "@/components/auth/form-success";
 
 /* ACTIONS */
-import { newVerification } from "@/server/actions/tokens";
+import { newVerification } from "@/server/actions/auth/tokens";
 
 const EmailVerificationForm = () => {
 

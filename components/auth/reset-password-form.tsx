@@ -29,7 +29,7 @@ import FormSuccess from "@/components/auth/form-success";
 import { ResetPasswordSchema } from "@/types/reset-password-schema";
 
 /* ACTIONS */
-import { resetPassword } from "@/server/actions/reset-password";
+import { resetPassword } from "@/server/actions/auth/reset-password";
 
 /* HELPERS */
 import { cn } from "@/lib/utils";

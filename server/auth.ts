@@ -1,13 +1,16 @@
-import NextAuth from "next-auth";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+/* DB */
 import { db } from "@/server";
-import Google from "next-auth/providers/google";
-import Github from "next-auth/providers/github";
-import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/types/login-schema";
-import { accounts, users } from "./schema";
-import { eq } from "drizzle-orm";
+import { accounts, users } from "@/server/schema";
+
+/* PLUGINS */
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import bcrypt from "bcrypt";
+import { eq } from "drizzle-orm";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import Github from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	adapter: DrizzleAdapter(db),

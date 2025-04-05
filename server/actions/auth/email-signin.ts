@@ -1,14 +1,19 @@
 "use server";
 
+/* DB */
 import { db } from "@/server";
 import { twoFactorTokens, users } from "@/server/schema";
 import { LoginSchema } from "@/types/login-schema";
+
+/* PLUGINS */
 import { eq } from "drizzle-orm";
 import { createSafeActionClient } from "next-safe-action";
-import { signIn } from "../auth";
-import { generateEmailVerificationToken, generateTwoFactorToken, getTwoFactorTokenByEmail } from "./tokens";
-import { sendTwoFactorTokenEmail, sendVerificationEmail } from "./email";
 import { AuthError } from "next-auth";
+
+/* ACTIONS */
+import { signIn } from "@/server/auth";
+import { generateEmailVerificationToken, generateTwoFactorToken, getTwoFactorTokenByEmail } from "@/server/actions/auth/tokens";
+import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/server/actions/auth/email";
 
 const action = createSafeActionClient();
 

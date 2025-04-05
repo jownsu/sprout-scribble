@@ -38,7 +38,7 @@ import { Switch } from "@/components/ui/switch";
 import { SettingsSchema } from "@/types/settings-schema";
 
 /* ACTIONS */
-import { settings } from "@/server/actions/settings";
+import { settings } from "@/server/actions/auth/settings";
 
 /* HELPERS */
 import { UploadButton } from "@/lib/uploadthing";

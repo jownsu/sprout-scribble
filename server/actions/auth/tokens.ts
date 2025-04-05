@@ -1,9 +1,12 @@
 
 "use server";
 
+/* DB */
 import { db } from "@/server";
-import { eq } from "drizzle-orm";
 import { emailTokens, passwordResetTokens, twoFactorTokens, users } from "@/server/schema";
+
+/* PLUGIN */
+import { eq } from "drizzle-orm";
 import crypto from "crypto"
 
 export const getVerificationTokenByEmail = async (email: string) => {

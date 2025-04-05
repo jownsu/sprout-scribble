@@ -30,7 +30,7 @@ import FormError from "@/components/auth/form-error";
 import { NewPasswordSchema } from "@/types/new-password-schema";
 
 /* ACTION */
-import { newPassword } from "@/server/actions/new-password";
+import { newPassword } from "@/server/actions/auth/new-password";
 
 /* HELPERS */
 import { cn } from "@/lib/utils";

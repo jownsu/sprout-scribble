@@ -27,7 +27,7 @@ import FormError from "@/components/auth/form-error";
 import FormSuccess from "@/components/auth/form-success";
 
 /* ACTIONS */
-import { emailRegister } from "@/server/actions/email-register";
+import { emailRegister } from "@/server/actions/auth/email-register";
 
 /* CONSTANTS */
 import { RegisterSchema } from "@/types/register-schema";
