@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/navigation/nav";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import Providers from "@/components/providers";
 
 const poppins = Poppins({
 	variable: "--font-poppins",
@@ -25,17 +25,12 @@ export default function RootLayout({
 			<body
 				className={`$${poppins.variable} bg-background flex flex-col gap-[16]`}
 			>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="light"
-					enableSystem
-					disableTransitionOnChange
-				>
+				<Providers>
 					<Nav />
 					<main className="px-[16]">
 						{children}
 					</main>
-				</ThemeProvider>
+				</Providers>
 			</body>
 		</html>
 	);
