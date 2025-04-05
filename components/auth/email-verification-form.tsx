@@ -10,7 +10,7 @@ import FormError from "@/components/auth/form-error";
 import FormSuccess from "@/components/auth/form-success";
 
 /* ACTIONS */
-import { newVerification } from "@/server/actions/auth/tokens";
+import { verifyUser } from "@/server/actions/auth/tokens";
 
 const EmailVerificationForm = () => {
 
@@ -30,7 +30,7 @@ const EmailVerificationForm = () => {
             return;
         }
 
-        newVerification(token).then((data) => {
+        verifyUser(token).then((data) => {
             if(data.status){
                 setSuccess(data.message);
             }

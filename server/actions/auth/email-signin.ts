@@ -17,71 +17,77 @@ import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/server/actions
 
 const action = createSafeActionClient();
 
+/* Sign in user or send verification email if user has two factor authentication */
 export const emailSignIn = action
 	.schema(LoginSchema)
 	.action(async ({ parsedInput: { email, password, code } }) => {
 		try {
-			/* Check if the user is in the database */
-			const existingUser = await db.query.users.findFirst({
+
+			/* Validate the user if existing */
+			const existing_user = await db.query.users.findFirst({
 				where: eq(users.email, email)
 			});
 
-
-			/* Return error if no user */
-			if (existingUser?.email !== email) {
+			if (existing_user?.email !== email) {
 				return {
 					status: false,
 					message: "User not found"
 				};
 			}
 
-			/* Return error if user is not verified */
-			if(!existingUser.emailVerified){
-				const [verification] = await generateEmailVerificationToken(existingUser.email);
-				const sendResponse = await sendVerificationEmail(verification.email, verification.token);
+			/* Send verification to email if the user is not email verified */
+			if(!existing_user.emailVerified){
+				const [verification] = await generateEmailVerificationToken(existing_user.email);
+				const send_response = await sendVerificationEmail(verification.email, verification.token);
 				
 				return {
-					status: sendResponse?.status,
-					message: sendResponse?.message
+					status: send_response?.status,
+					message: send_response?.message
 				};
 			}
 
 			/* Check if user enabled two factor authentication */
-			if(existingUser.twoFactorEnabled && existingUser.email){ 
+			if(existing_user.twoFactorEnabled && existing_user.email){ 
+				/* Validate code if passed on payload */
 				if(code){
-					const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+					const two_factor_token = await getTwoFactorTokenByEmail(existing_user.email);
 
-					if(!twoFactorTokens || twoFactorToken?.token !== code){
+					/* Return false if code and token does not match */
+					if(!twoFactorTokens || two_factor_token?.token !== code){
 						return {
 							status: false,
 							error: "Invalid Token"
 						}
 					}
 
-					const hasExpired = new Date(twoFactorToken.expires) < new Date();
+					const has_expired = new Date(two_factor_token.expires) < new Date();
 
-					if(hasExpired){
+					/* Return false if the token is expired */
+					if(has_expired){
 						return {
 							status: false,
 							error: "Token has expired"
 						}
 					} 
 
-					await db.delete(twoFactorTokens).where(eq(twoFactorTokens.id, twoFactorToken.id));
+					/* Delete token if the code is valid */
+					await db.delete(twoFactorTokens).where(eq(twoFactorTokens.id, two_factor_token.id));
 				}
+				/* Generate code if not included on payload */
 				else {
-
 					/* TODO: Add additional checking for password match to prevent invalid credentials login. */
-					const [twoFactor] = await generateTwoFactorToken(existingUser.email);
+					const [two_factor] = await generateTwoFactorToken(existing_user.email);
 
-					if(!twoFactor){
+					/* Return false if token was not generated */
+					if(!two_factor){
 						return {
 							status: true,
 							message: "Token not generated"
 						}
 					}
 
-					await sendTwoFactorTokenEmail(twoFactor.email, twoFactor.token);
+					/* Send the token on email */
+					await sendTwoFactorTokenEmail(two_factor.email, two_factor.token);
 					return {
 						status: true,
 						twoFactor: true,
@@ -90,6 +96,7 @@ export const emailSignIn = action
 				}
 			}
 
+			/* Will sign in the user */
 			await signIn("credentials", {
 				email,
 				password,

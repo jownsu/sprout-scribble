@@ -7,15 +7,16 @@ import getBaseUrl from "@/lib/base-url";
 const resend = new Resend(process.env.RESEND_API_KEY); 
 const domain = getBaseUrl();
 
+/* Send verification link for email confirmation */
 export const sendVerificationEmail = async (email: string, token: string) => {
     
-    const confirmLink = `${domain}/auth/new-verification?token=${token}`;
+    const confirm_link = `${domain}/auth/new-verification?token=${token}`;
 
     const { data, error } = await resend.emails.send({
         from: "onboarding@resend.dev",
         to: [email],
         subject: "Sprout and Scribble - Confirmation Email",
-        html: `<p>Click to <a href='${confirmLink}'>Confirm your email</a></p>`
+        html: `<p>Click to <a href='${confirm_link}'>Confirm your email</a></p>`
     });
 
     if(error){
@@ -33,15 +34,16 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     }
 }
 
+/* Send reset password link for reset password */
 export const sendResetPasswordEmail = async (email: string, token: string) => {
     
-    const confirmLink = `${domain}/auth/new-password?token=${token}`;
+    const confirm_link = `${domain}/auth/new-password?token=${token}`;
 
     const { data, error } = await resend.emails.send({
         from: "onboarding@resend.dev",
         to: [email],
         subject: "Sprout and Scribble - Confirmation Email",
-        html: `<p>Click to <a href='${confirmLink}'>Reset your password</a></p>`
+        html: `<p>Click to <a href='${confirm_link}'>Reset your password</a></p>`
     });
 
     if(error){
@@ -59,6 +61,7 @@ export const sendResetPasswordEmail = async (email: string, token: string) => {
     }
 }
 
+/* Send code for two factor authentication */
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
     const { data, error } = await resend.emails.send({
         from: "onboarding@resend.dev",

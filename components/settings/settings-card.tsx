@@ -38,7 +38,7 @@ import { Switch } from "@/components/ui/switch";
 import { SettingsSchema } from "@/types/settings-schema";
 
 /* ACTIONS */
-import { settings } from "@/server/actions/auth/settings";
+import { updateUser } from "@/server/actions/auth/update-user";
 
 /* HELPERS */
 import { UploadButton } from "@/lib/uploadthing";
@@ -65,7 +65,7 @@ export default function SettingsCard(session: SettingsForm) {
 		}
 	});
 
-	const { execute, status } = useAction(settings, {
+	const { execute, status } = useAction(updateUser, {
 		onSuccess: (data) => {
 			if (data?.data?.success) {
 				setSuccess(data?.data.success);

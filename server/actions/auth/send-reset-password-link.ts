@@ -15,28 +15,32 @@ import { generateResetPasswordToken } from "@/server/actions/auth/tokens";
 
 const action = createSafeActionClient();
 
-export const resetPassword = action
+/* Send reset password link to the given email */
+export const sendResetPasswordLink = action
 	.schema(ResetPasswordSchema)
 	.action(async ({ parsedInput: { email } }) => {
-		const existingUser = await db.query.users.findFirst({
+
+		/* Validate the user if existing */
+		const existing_user = await db.query.users.findFirst({
 			where: eq(users.email, email)
 		});
 
-		if (!existingUser) {
+		if (!existing_user) {
 			return {
 				status: false,
 				message: "User not found"
 			};
 		}
 
+		/* Generate password reset token and send to given email */
 		const [verification] = await generateResetPasswordToken(email);
-		const sendResponse = await sendResetPasswordEmail(
+		const send_response = await sendResetPasswordEmail(
 			verification.email,
 			verification.token
 		);
 
 		return {
-			status: sendResponse?.status,
-			message: sendResponse?.message
+			status: send_response?.status,
+			message: send_response?.message
 		};
 	});

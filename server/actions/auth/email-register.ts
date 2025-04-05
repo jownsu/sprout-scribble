@@ -16,17 +16,17 @@ import { sendVerificationEmail } from "@/server/actions/auth/email";
 
 const action = createSafeActionClient();
 
+/* Create user and send verification email */
 export const emailRegister = action
 	.schema(RegisterSchema)
 	.action(async ({ parsedInput: { email, name, password } }) => {
 
-        /* Get the user by email */
-		const user = await db.query.users.findFirst({
+		/* Validate the user if existing */
+		const existing_user = await db.query.users.findFirst({
 			where: eq(users.email, email)
 		});
 
-        /* Stop if the email is taken and already verified */
-        if(user && user.emailVerified){
+        if(existing_user && existing_user.emailVerified){
             return {
 				status: false,
 				error: "Email already in use"
@@ -34,28 +34,31 @@ export const emailRegister = action
         }
 
         /* Create user if the email is not already used */
-        if(!user){
-            const hashedPassword = await bcrypt.hash(password, 10);
+        if(!existing_user){
+            const hashed_password = await bcrypt.hash(password, 10);
 
             await db.insert(users).values({
                 email,
                 name,
-                password: hashedPassword
+                password: hashed_password
             });
         }
 
+        /* Generate verification email and send it to email */
         const [verification] = await generateEmailVerificationToken(email);
-        const sendResponse = await sendVerificationEmail(verification.email, verification.token);
+        const send_response = await sendVerificationEmail(verification.email, verification.token);
 
-        if(!sendResponse?.status){
+        /* Return error if verification fails */
+        if(!send_response?.status){
             return {
                 status: false,
-                error: sendResponse?.message
+                error: send_response?.message
             }
         }
 
+        /* Return success message */
         return {
             status: true,
-            data: user?.emailVerified ? "Email confirmation resent" : "Confirmation email sent"
+            data: existing_user?.emailVerified ? "Email confirmation resent" : "Confirmation email sent"
         }
 	});

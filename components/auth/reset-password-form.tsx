@@ -29,7 +29,7 @@ import FormSuccess from "@/components/auth/form-success";
 import { ResetPasswordSchema } from "@/types/reset-password-schema";
 
 /* ACTIONS */
-import { resetPassword } from "@/server/actions/auth/reset-password";
+import { sendResetPasswordLink } from "@/server/actions/auth/send-reset-password-link";
 
 /* HELPERS */
 import { cn } from "@/lib/utils";
@@ -45,7 +45,7 @@ const ResetPasswordForm = () => {
 		}
 	});
 
-	const { execute, status } = useAction(resetPassword, {
+	const { execute, status } = useAction(sendResetPasswordLink, {
 		onSuccess: (response) => {
 			if (response.data?.status === true) {
 				setSuccess(response.data?.message || "Success");

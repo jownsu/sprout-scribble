@@ -15,10 +15,12 @@ import { getPasswordResetToken } from "@/server/actions/auth/tokens";
 
 const action = createSafeActionClient();
 
+/* Set new password and delete password reset token */
 export const newPassword = action
     .schema(NewPasswordSchema)
     .action(async ({ parsedInput: { password, token } }) => {
 
+        /* Return false if there is no token on payload */
         if(!token){
             return {
                 status: false,
@@ -26,44 +28,49 @@ export const newPassword = action
             }
         }
 
-        const existingToken = await getPasswordResetToken(token);
+        /* Get and validate password token */
+        const existing_token = await getPasswordResetToken(token);
 
-        if(!existingToken){
+        if(!existing_token){
             return {
                 status: false,
                 message: "Token not found"
             }
         }
 
-        const hasExpired = new Date(existingToken.expires) < new Date();
+        /* Check if token is expired */
+        const has_expired = new Date(existing_token.expires) < new Date();
 
-        if(hasExpired){
+        if(has_expired){
             return {
                 status: false,
                 message: "Token has expired"
             }
         }
 
-        const existingUser = await db.query.users.findFirst({
-            where: eq(users.email, existingToken.email)
+        /* Check if user exists by email */
+        const existing_user = await db.query.users.findFirst({
+            where: eq(users.email, existing_token.email)
         });
 
-        if(!existingUser){
+        if(!existing_user){
             return {
                 status: false,
                 message: "User not found"
             }
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        /* Hashe the new password */
+        const hashed_password = await bcrypt.hash(password, 10);
 
+        /* Update the password of the user and delete the password reset token */
         await dbPool.transaction(async (tx) => {
             await tx.update(users)
-                .set({password: hashedPassword})
-                .where(eq(users.id, existingUser.id));
+                .set({password: hashed_password})
+                .where(eq(users.id, existing_user.id));
     
             await tx.delete(passwordResetTokens)
-                .where(eq(passwordResetTokens.id, existingToken.id));
+                .where(eq(passwordResetTokens.id, existing_token.id));
         });
 
         return {
