@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import SettingsCard from "./_components/settings-card";
 
 const SettingsPage = async () => {
-	const session = await auth();
+    const session = await auth();
 
-	if (!session) {
+    if (!session) {
         return redirect("/")
     };
 

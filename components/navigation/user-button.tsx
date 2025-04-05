@@ -55,7 +55,7 @@ const UserButton = ({ user }: Props) => {
 					My orders
 				</DropdownMenuItem>
 				<DropdownMenuItem asChild className="py-2 font-medium cursor-pointer transition-all duration-200 group">
-					<Link href={"dashboard/settings"}>
+					<Link href={"/settings"}>
 						<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
 						Settings
 					</Link>
