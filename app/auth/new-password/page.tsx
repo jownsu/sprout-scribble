@@ -1,7 +1,15 @@
-import NewPasswordForm from '@/components/auth/new-password-form'
+/* NEXT */
+import { Suspense } from "react";
+
+/* COMPONENTS */
+import NewPasswordForm from "@/components/auth/new-password-form";
 
 const PasswordResetPage = () => {
-  return <NewPasswordForm />
-}
+	return (
+		<Suspense>
+			<NewPasswordForm />
+		</Suspense>
+	);
+};
 
-export default PasswordResetPage
+export default PasswordResetPage;
