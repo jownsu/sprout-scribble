@@ -1,5 +1,15 @@
 "use client";
 
+/* NEXT */
+import { useState } from "react";
+
+/* PLUGINS */
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+/* COMPONENTS */
 import {
 	Form,
 	FormControl,
@@ -9,19 +19,20 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import AuthCard from "./auth-card";
-import { useAction } from "next-safe-action/hooks";
-import { cn } from "@/lib/utils";
-import FormSuccess from "./form-success";
-import FormError from "./form-error";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import AuthCard from "@/components/auth/auth-card";
+import FormError from "@/components/auth/form-error";
+import FormSuccess from "@/components/auth/form-success";
+
+/* CONSTANTS */
 import { ResetPasswordSchema } from "@/types/reset-password-schema";
+
+/* ACTIONS */
 import { resetPassword } from "@/server/actions/reset-password";
+
+/* HELPERS */
+import { cn } from "@/lib/utils";
 
 const ResetPasswordForm = () => {
 	const [error, setError] = useState("");
@@ -54,9 +65,9 @@ const ResetPasswordForm = () => {
 
 	return (
 		<AuthCard
-			cardTitle="Forgot your password?"
-			backButtonHref="/auth/login"
-			backButtonLabel="Back to login"
+			card_title="Forgot your password?"
+			back_button_href="/auth/login"
+			back_button_label="Back to login"
 		>
 			<div>
 				<Form {...form}>

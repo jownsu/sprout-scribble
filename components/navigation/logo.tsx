@@ -1,4 +1,4 @@
-
+/* PLUGINS */
 import { DiGithubBadge } from "react-icons/di";
 
 const Logo = () => {

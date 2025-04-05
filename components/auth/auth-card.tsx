@@ -1,3 +1,7 @@
+/* NEXT */
+import { ReactNode } from "react";
+
+/* COMPONENTS */
 import {
 	Card,
 	CardContent,
@@ -5,38 +9,37 @@ import {
 	CardHeader,
 	CardTitle
 } from "@/components/ui/card";
-import { ReactNode } from "react";
-import BackButton from "./back-button";
-import Socials from "./socials";
+import BackButton from "@/components/auth/back-button";
+import Socials from "@/components/auth/socials";
 
 interface Props {
 	children: ReactNode;
-	cardTitle: string;
-	backButtonHref: string;
-	backButtonLabel: string;
-	showSocials?: boolean;
+	card_title: string;
+	back_button_href: string;
+	back_button_label: string;
+	show_socials?: boolean;
 }
 
 const AuthCard = ({
 	children,
-	cardTitle,
-	backButtonHref,
-	backButtonLabel,
-	showSocials
+	card_title,
+	back_button_href,
+	back_button_label,
+	show_socials
 }: Props) => {
 	return (
 		<Card className="max-w-[550] mx-auto">
 			<CardHeader>
-				<CardTitle className="t-[21]">{cardTitle}</CardTitle>
+				<CardTitle className="t-[21]">{card_title}</CardTitle>
 			</CardHeader>
 			<CardContent>{children}</CardContent>
-			{showSocials && (
+			{show_socials && (
 				<CardFooter>
 					<Socials />
 				</CardFooter>
 			)}
 			<CardFooter>
-				<BackButton href={backButtonHref} label={backButtonLabel} />
+				<BackButton href={back_button_href} label={back_button_label} />
 			</CardFooter>
 		</Card>
 	);

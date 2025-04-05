@@ -1,6 +1,11 @@
-import { auth } from "@/server/auth";
+/* NEXT */
 import { redirect } from "next/navigation";
-import SettingsCard from "./_components/settings-card";
+
+/* COMPONENTS */
+import SettingsCard from "@/components/settings/settings-card";
+
+/* HELPERS */
+import { auth } from "@/server/auth";
 
 const SettingsPage = async () => {
     const session = await auth();

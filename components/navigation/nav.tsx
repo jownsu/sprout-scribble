@@ -1,9 +1,16 @@
-import { auth } from "@/server/auth";
-import { LogIn } from "lucide-react";
+/* NEXT */
 import Link from "next/link";
+
+/* PLUGINS */
+import { LogIn } from "lucide-react";
+
+/* COMPONENTS */
+import Logo from "@/components/navigation/logo";
+import UserButton from "@/components/navigation/user-button";
 import { Button } from "@/components/ui/button";
-import Logo from "./logo";
-import UserButton from "./user-button";
+
+/* ACTIONS */
+import { auth } from "@/server/auth";
 
 const Nav = async () => {
 	const session = await auth();

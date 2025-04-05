@@ -1,6 +1,16 @@
 "use client";
 
-// import { UploadButton } from "@/app/api/uploadthing/upload";
+/* NEXT */
+import { useState } from "react";
+
+/* PLUGINS */
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Session } from "next-auth";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+/* COMPONENTS */
 import FormError from "@/components/auth/form-error";
 import FormSuccess from "@/components/auth/form-success";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -23,15 +33,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { UploadButton } from "@/lib/uploadthing";
-import { settings } from "@/server/actions/settings";
+
+/* CONSTANTS */
 import { SettingsSchema } from "@/types/settings-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Session } from "next-auth";
-import { useAction } from "next-safe-action/hooks";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+
+/* ACTIONS */
+import { settings } from "@/server/actions/settings";
+
+/* HELPERS */
+import { UploadButton } from "@/lib/uploadthing";
 
 type SettingsForm = {
 	session: Session;
@@ -40,8 +50,7 @@ type SettingsForm = {
 export default function SettingsCard(session: SettingsForm) {
 	const [error, setError] = useState<string | undefined>();
 	const [success, setSuccess] = useState<string | undefined>();
-	const [avatarUploading, setAvatarUploading] = useState(false);
-
+	const [avatar_uploading, setAvatarUploading] = useState(false);
 
 	/* TODO: Make updating of password optional */
 	const form = useForm<z.infer<typeof SettingsSchema>>({
@@ -59,11 +68,11 @@ export default function SettingsCard(session: SettingsForm) {
 	const { execute, status } = useAction(settings, {
 		onSuccess: (data) => {
 			if (data?.data?.success) {
-				setSuccess(data?.data.success)
-			};
+				setSuccess(data?.data.success);
+			}
 			if (data?.data?.error) {
-				setError(data?.data?.error)
-			};
+				setError(data?.data?.error);
+			}
 		},
 		onError: () => {
 			setError("Something went wrong");
@@ -112,13 +121,12 @@ export default function SettingsCard(session: SettingsForm) {
 								<FormItem>
 									<FormLabel>Avatar</FormLabel>
 									<div className="flex items-center gap-4">
-
 										<Avatar>
 											<AvatarImage src={form.getValues("image")} />
 											<AvatarFallback className="bg-primary text-white">
 												{session.session.user?.name
-														?.charAt(0)
-														.toUpperCase()}
+													?.charAt(0)
+													.toUpperCase()}
 											</AvatarFallback>
 										</Avatar>
 										{/* TODO: Upload only on submit not on Upload. */}
@@ -238,7 +246,7 @@ export default function SettingsCard(session: SettingsForm) {
 						<FormSuccess message={success} />
 						<Button
 							type="submit"
-							disabled={status === "executing" || avatarUploading}
+							disabled={status === "executing" || avatar_uploading}
 						>
 							Update your settings
 						</Button>

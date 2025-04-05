@@ -1,5 +1,14 @@
 "use client";
 
+/* NEXT */
+import Link from "next/link";
+
+/* PLUGINS */
+import { LogOut, Moon, Settings, Sun, TruckIcon } from "lucide-react";
+import { User } from "next-auth";
+import { useTheme } from "next-themes";
+
+/* COMPONENTS */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -8,13 +17,14 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { LogOut, Moon, Settings, Sun, TruckIcon } from "lucide-react";
-import { User } from "next-auth";
+import { Switch } from "@/components/ui/switch";
+
+/* ACTIONS */
 import { signOut } from "next-auth/react";
-import { useTheme } from "next-themes";
-import { Switch } from "../ui/switch";
+
+/* HELPERS */
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+
 interface Props {
 	user?: User;
 }
@@ -54,15 +64,16 @@ const UserButton = ({ user }: Props) => {
 					<TruckIcon className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
 					My orders
 				</DropdownMenuItem>
-				<DropdownMenuItem asChild className="py-2 font-medium cursor-pointer transition-all duration-200 group">
+				<DropdownMenuItem
+					asChild
+					className="py-2 font-medium cursor-pointer transition-all duration-200 group"
+				>
 					<Link href={"/settings"}>
 						<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
 						Settings
 					</Link>
 				</DropdownMenuItem>
-				<DropdownMenuItem
-					className={"py-2 font-medium cursor-pointer group"}
-				>
+				<DropdownMenuItem className={"py-2 font-medium cursor-pointer group"}>
 					{theme === "dark" && (
 						<Moon
 							className="mr-1 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-200 ease-in-out"
@@ -75,10 +86,15 @@ const UserButton = ({ user }: Props) => {
 							size={14}
 						/>
 					)}
-					<div className={cn("first-letter:uppercase transition-all duration-200 ease-in-out", {
-						["group-hover:text-blue-400"]: theme === "dark",
-						["group-hover:text-yellow-600"]: theme === "light"
-					})}>
+					<div
+						className={cn(
+							"first-letter:uppercase transition-all duration-200 ease-in-out",
+							{
+								["group-hover:text-blue-400"]: theme === "dark",
+								["group-hover:text-yellow-600"]: theme === "light"
+							}
+						)}
+					>
 						{theme} mode
 					</div>
 					<Switch

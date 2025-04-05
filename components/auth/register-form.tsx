@@ -1,5 +1,16 @@
 "use client";
 
+/* NEXT */
+import Link from "next/link";
+import { useState } from "react";
+
+/* PLUGINS */
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+/* COMPONENTS */
 import {
 	Form,
 	FormControl,
@@ -9,20 +20,20 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import AuthCard from "@/components/auth/auth-card";
+import FormError from "@/components/auth/form-error";
+import FormSuccess from "@/components/auth/form-success";
+
+/* ACTIONS */
 import { emailRegister } from "@/server/actions/email-register";
+
+/* CONSTANTS */
 import { RegisterSchema } from "@/types/register-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import AuthCard from "./auth-card";
-import FormError from "./form-error";
-import FormSuccess from "./form-success";
+
+/* HELPERS */
+import { cn } from "@/lib/utils";
 
 const RegisterForm = () => {
 	const form = useForm({
@@ -58,9 +69,9 @@ const RegisterForm = () => {
 
 	return (
 		<AuthCard
-			cardTitle="Create an account"
-			backButtonHref="/auth/login"
-			backButtonLabel="Already have an account?"
+			card_title="Create an account"
+			back_button_href="/auth/login"
+			back_button_label="Already have an account?"
 		>
 			<div>
 				<Form {...form}>

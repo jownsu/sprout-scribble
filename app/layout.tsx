@@ -1,8 +1,15 @@
+/* NEXT */
 import type { Metadata } from "next";
+
+/* PLUGINS */
 import { Poppins } from "next/font/google";
-import "./globals.css";
+
+/* COMPONENTS */
 import Nav from "@/components/navigation/nav";
 import Providers from "@/components/providers";
+
+/* STYLES */
+import "./globals.css";
 
 const poppins = Poppins({
 	variable: "--font-poppins",
@@ -11,8 +18,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-	title: "Sprout Scribble",
-	description: "E-commerce website"
+	title: "Nextjs with drizzle template",
+	description: "Nextjs with drizzle template"
 };
 
 export default function RootLayout({

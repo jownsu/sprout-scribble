@@ -1,6 +1,9 @@
 "use client";
 
+/* REACT */
 import * as React from "react";
+
+/* PLUGINS */
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 export function ThemeProvider({

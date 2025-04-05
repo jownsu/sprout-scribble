@@ -1,4 +1,7 @@
+/* NEXT */
 import { PropsWithChildren } from "react";
+
+/* COMPONENTS */
 import QueryClientProvider from "@/components/providers/query-client-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 

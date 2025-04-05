@@ -1,5 +1,16 @@
 "use client";
 
+/* NEXT */
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+
+/* PLUGINS */
+import { useAction } from "next-safe-action/hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+/* COMPONENTS */
 import {
 	Form,
 	FormControl,
@@ -9,20 +20,20 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import AuthCard from "./auth-card";
-import { useAction } from "next-safe-action/hooks";
-import { cn } from "@/lib/utils";
-import FormSuccess from "./form-success";
-import FormError from "./form-error";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import AuthCard from "@/components/auth/auth-card";
+import FormSuccess from "@/components/auth/form-success";
+import FormError from "@/components/auth/form-error";
+
+/* CONSTANTS */
 import { NewPasswordSchema } from "@/types/new-password-schema";
+
+/* ACTION */
 import { newPassword } from "@/server/actions/new-password";
-import { useSearchParams } from "next/navigation";
+
+/* HELPERS */
+import { cn } from "@/lib/utils";
 
 const NewPasswordForm = () => {
 	const token = useSearchParams().get("token");
@@ -57,9 +68,9 @@ const NewPasswordForm = () => {
 
 	return (
 		<AuthCard
-			cardTitle="Enter a new password"
-			backButtonHref="/auth/login"
-			backButtonLabel="Back to login"
+			card_title="Enter a new password"
+			back_button_href="/auth/login"
+			back_button_label="Back to login"
 		>
 			<div>
 				<Form {...form}>

@@ -1,9 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+/* PLUGINS */
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+
+/* COMONENTS */
+import { Button } from "@/components/ui/button";
+
+/* ACTIONS */
+import { signIn } from "next-auth/react";
 
 const Socials = () => {
 	return (

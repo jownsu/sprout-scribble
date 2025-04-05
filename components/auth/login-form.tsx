@@ -1,5 +1,20 @@
 "use client";
 
+/* NEXT */
+import Link from "next/link";
+import { useState } from "react";
+
+/* PLUGINS */
+import { zodResolver } from "@hookform/resolvers/zod";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+/* CONSTANTS */
+import { LoginSchema } from "@/types/login-schema";
+
+/* COMPONENTS */
 import {
 	Form,
 	FormControl,
@@ -9,27 +24,23 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/ui/form";
-import { LoginSchema } from "@/types/login-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import AuthCard from "./auth-card";
-import { emailSignIn } from "@/server/actions/email-signin";
-import { useAction } from "next-safe-action/hooks";
-import { cn } from "@/lib/utils";
-import FormSuccess from "./form-success";
-import FormError from "./form-error";
-import { useState } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import AuthCard from "@/components/auth/auth-card";
+import FormError from "@/components/auth/form-error";
+import FormSuccess from "@/components/auth/form-success";
+
+/* HELPERS */
+import { cn } from "@/lib/utils";
+
+/* ACTIONS */
+import { emailSignIn } from "@/server/actions/email-signin";
 
 const LoginForm = () => {
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
-	const [showTwoFactor, setShowTwoFactor] = useState(false);
+	const [show_two_factor, setShowTwoFactor] = useState(false);
 
 	const form = useForm({
 		resolver: zodResolver(LoginSchema),
@@ -56,7 +67,6 @@ const LoginForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-		console.log(values);
 		execute(values);
 		setError("");
 		setSuccess("");
@@ -64,10 +74,10 @@ const LoginForm = () => {
 
 	return (
 		<AuthCard
-			cardTitle="Welcome back!"
-			backButtonHref="/auth/register"
-			backButtonLabel="Create a new account"
-			showSocials
+			card_title="Welcome back!"
+			back_button_href="/auth/register"
+			back_button_label="Create a new account"
+			show_socials
 		>
 			<div>
 				<Form {...form}>
@@ -75,7 +85,7 @@ const LoginForm = () => {
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="flex flex-col gap-[16]"
 					>
-						{showTwoFactor && (
+						{show_two_factor && (
 							<FormField
 								control={form.control}
 								name="code"
@@ -106,7 +116,7 @@ const LoginForm = () => {
 							/>
 						)}
 
-						{!showTwoFactor && (
+						{!show_two_factor && (
 							<>
 								<FormField
 									control={form.control}
@@ -159,7 +169,7 @@ const LoginForm = () => {
 							type="submit"
 							className={cn(status === "executing" ? "animate-pulse" : "")}
 						>
-							{ showTwoFactor ? "Verify" : "Login" }
+							{ show_two_factor ? "Verify" : "Login" }
 						</Button>
 					</form>
 				</Form>
