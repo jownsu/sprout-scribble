@@ -30,11 +30,11 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`$${poppins.variable} bg-background flex flex-col gap-[16]`}
+				className={`$${poppins.variable} bg-background flex flex-col gap-[16] min-h-screen`}
 			>
 				<Providers>
 					<Nav />
-					<main className="px-[16]">
+					<main className="px-[16] flex h-full flex-1">
 						{children}
 					</main>
 				</Providers>

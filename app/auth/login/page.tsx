@@ -1,8 +1,12 @@
 /* COMPONENTS */
-import LoginForm from "@/components/auth/login-form";
+import SocialsLogin from "@/components/auth/socials-login";
 
 const LoginPage = () => {
-	return <LoginForm />;
+	return (
+		<div className="w-full flex items-center justify-center">
+			<SocialsLogin />
+		</div>
+	);
 };
 
 export default LoginPage;

@@ -16,7 +16,7 @@ const Nav = async () => {
 	const session = await auth();
 
 	return (
-		<header className="bg-card-foreground p-[16]">
+		<header className="bg-card-foreground py-[16] px-0">
 			<nav className="container">
 				<ul className="flex justify-between items-center">
 					<li>
@@ -24,7 +24,7 @@ const Nav = async () => {
 							<Logo />
 						</Link>
 					</li>
-					<li className="">
+					<li>
 						{session ? (
 							<UserButton user={session?.user} />
 						) : (

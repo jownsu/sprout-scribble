@@ -1,1 +1,0 @@
-ALTER TABLE "email_tokens" ADD PRIMARY KEY ("id");

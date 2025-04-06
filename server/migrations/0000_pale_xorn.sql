@@ -1,3 +1,4 @@
+CREATE TYPE "public"."roles" AS ENUM('user', 'admin');--> statement-breakpoint
 CREATE TABLE "account" (
 	"userId" text NOT NULL,
 	"type" text NOT NULL,
@@ -18,6 +19,9 @@ CREATE TABLE "user" (
 	"email" text,
 	"emailVerified" timestamp,
 	"image" text,
+	"password" text,
+	"twoFactorEnabled" boolean DEFAULT false,
+	"roles" "roles" DEFAULT 'user',
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint

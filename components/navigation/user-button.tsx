@@ -4,7 +4,7 @@
 import Link from "next/link";
 
 /* PLUGINS */
-import { LogOut, Moon, Settings, Sun, TruckIcon } from "lucide-react";
+import { CircleUserRound, LogOut, Moon, Sun } from "lucide-react";
 import { User } from "next-auth";
 import { useTheme } from "next-themes";
 
@@ -60,17 +60,13 @@ const UserButton = ({ user }: Props) => {
 					</p>
 				</div>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-200 group">
-					<TruckIcon className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
-					My orders
-				</DropdownMenuItem>
 				<DropdownMenuItem
 					asChild
 					className="py-2 font-medium cursor-pointer transition-all duration-200 group"
 				>
-					<Link href={"/settings"}>
-						<Settings className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />{" "}
-						Settings
+					<Link href={"/profile"}>
+						<CircleUserRound className="mr-1 group-hover:translate-x-1 transition-all duration-200 ease-in-out" />
+						Profile
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem className={"py-2 font-medium cursor-pointer group"}>

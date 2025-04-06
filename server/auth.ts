@@ -1,14 +1,11 @@
 /* DB */
 import { db } from "@/server";
-import { LoginSchema } from "@/types/login-schema";
 import { accounts, users } from "@/server/schema";
 
 /* PLUGINS */
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
@@ -35,20 +32,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 		},
 		async jwt({ token }) {
 			if (!token.sub) return token;
-			const existingUser = await db.query.users.findFirst({
+
+			const existing_user = await db.query.users.findFirst({
 				where: eq(users.id, token.sub)
 			});
-			if (!existingUser) return token;
-			const existingAccount = await db.query.accounts.findFirst({
-				where: eq(accounts.userId, existingUser.id)
+
+			if (!existing_user) return token;
+
+			const existing_account = await db.query.accounts.findFirst({
+				where: eq(accounts.userId, existing_user.id)
 			});
 
-			token.isOAuth = !!existingAccount;
-			token.name = existingUser.name;
-			token.email = existingUser.email;
-			token.role = existingUser.role;
-			token.isTwoFactorEnabled = existingUser.twoFactorEnabled;
-			token.image = existingUser.image;
+			token.isOAuth = !!existing_account;
+			token.name = existing_user.name;
+			token.email = existing_user.email;
+			token.role = existing_user.role;
+			token.isTwoFactorEnabled = existing_user.twoFactorEnabled;
+			token.image = existing_user.image;
 			return token;
 		}
 	},
@@ -62,30 +62,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			clientId: process.env.GITHUB_CLIENT_ID!,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET!,
 			allowDangerousEmailAccountLinking: true
-		}),
-		Credentials({
-			async authorize(credentials) {
-				const validateFields = LoginSchema.safeParse(credentials);
-
-				if (validateFields.success) {
-					const { email, password } = validateFields.data;
-
-					const user = await db.query.users.findFirst({
-						where: eq(users.email, email)
-					});
-
-					const passwordMatch = await bcrypt.compare(
-						password,
-						user?.password || ""
-					);
-
-					if (user && passwordMatch) {
-						return user;
-					}
-				}
-
-				return null;
-			}
 		})
 	]
 });
